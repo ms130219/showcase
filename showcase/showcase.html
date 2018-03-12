@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>橱窗效果</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: none;
+        }
+        #box{
+            width: 1000px;
+            height: 230px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            overflow: hidden;
+
+            position: relative;
+        }
+        #showcase{
+            display: flex;
+            height: 200px;
+            position: absolute;
+        }
+        #bar{
+            width: 100%;
+            height: 30px;
+            background-color: #cccccc;
+
+            position: absolute;
+            top: 200px;
+        }
+        #handle{
+            position: absolute;
+
+            height: 30px;
+            background-color: orangered;
+            border-radius: 13px;
+            cursor: pointer;
+        }
+        a{
+            margin-left: 5px;
+        }
+        img{
+            width: 400px;
+            height: 200px;
+        }
+        img:nth-child(1){
+            margin-left: 0;
+        }
+        a:hover{
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="showcase">
+        <a href="javascript:"><img src="img1.jpg"></a>
+        <a href="javascript:"><img src="img2.jpg"></a>
+        <a href="javascript:"><img src="img3.jpg"></a>
+        <a href="javascript:"><img src="img4.jpg"></a>
+        <a href="javascript:"><img src="image1.jpg"></a>
+        <a href="javascript:"><img src="image2.jpg"></a>
+        <a href="javascript:"><img src="image3.jpg"></a>
+        <a href="javascript:"><img src="image4.jpg"></a>
+        <a href="javascript:"><img src="img1.jpg"></a>
+        <a href="javascript:"><img src="img2.jpg"></a>
+        <a href="javascript:"><img src="img3.jpg"></a>
+        <a href="javascript:"><img src="img4.jpg"></a>
+        <a href="javascript:"><img src="image1.jpg"></a>
+        <a href="javascript:"><img src="image2.jpg"></a>
+        <a href="javascript:"><img src="image3.jpg"></a>
+        <a href="javascript:"><img src="image4.jpg"></a>
+    </div>
+    <div id="bar">
+        <span id="handle"></span>
+    </div>
+</div>
+
+<script>
+    window.onload=function () {
+        var showcase=document.getElementById('showcase');
+        var handle=document.getElementById('handle');
+        var bar=document.getElementById('bar');
+        var box=document.getElementById('box');
+
+        //把手/进度条=橱窗/商品列表
+        handle.style.width=box.offsetWidth/showcase.offsetWidth*bar.offsetWidth+'px';
+
+        handle.onmousedown=function () {
+            var e=event||window.event;
+
+            //记录开始位置
+            var begin=e.clientX-handle.offsetLeft;
+
+            document.onmousemove=function () {
+                var e=event||window.event;
+
+                var x=e.clientX-begin;
+
+                //边界值处理
+                if(x<0){
+                    x=0
+                }else if(x>bar.offsetWidth-handle.offsetWidth){
+                    x=bar.offsetWidth-handle.offsetWidth
+                }
+
+                handle.style.left=x+'px';
+
+                //把手移动距离/left=把手可移动距离/橱窗可移动距离
+                showcase.style.left=-x/((bar.offsetWidth-handle.offsetWidth)/(showcase.offsetWidth-box.offsetWidth))+'px';
+                return false;
+            }
+        };
+
+        document.onmouseup=function () {
+            document.onmousemove=null;
+        }
+    }
+</script>
+</body>
+</html>
